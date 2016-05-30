@@ -13,7 +13,7 @@ Download and copy [UIButtonExtention](https://raw.githubusercontent.com/Develope
 
 - show activiting state   
 `yourbutton.showActivityIndicatorStartAnimating()`
-- show inactivated state 
+- show inactivated state   
 `yourbutton.showActivityIndicatorStopAnimating()`
 
 ## License
