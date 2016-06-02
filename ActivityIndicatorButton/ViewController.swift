@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     }
     
     func show() {
-        testButton.showActivityIndicatorStartAnimating()
+        testButton.showActivityIndicatorStartAnimating(nil)
         sleep(2)
         testButton.showActivityIndicatorStopAnimating()
     }
