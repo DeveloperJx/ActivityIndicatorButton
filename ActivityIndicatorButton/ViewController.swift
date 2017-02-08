@@ -17,10 +17,14 @@ class ViewController: UIViewController {
         testButton.layer.cornerRadius = 8.0
     }
     
-    func show() {
+    func showAnimate() {
         testButton.showActivityIndicatorStartAnimating(nil)
         sleep(2)
         testButton.showActivityIndicatorStopAnimating()
+//        sleep(1)
+//        testButton.showActivityIndicatorStartAnimating(.gray)
+//        sleep(2)
+//        testButton.showActivityIndicatorStopAnimating()
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,8 +32,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func testButton(sender: AnyObject) {
-        NSThread.detachNewThreadSelector(#selector(ViewController.show), toTarget: self, withObject: nil)
+    @IBAction func testButton(_ sender: AnyObject) {
+//        showAnimate()
+        Thread.detachNewThreadSelector(#selector(showAnimate), toTarget: self, with: nil)
     }
 }
 

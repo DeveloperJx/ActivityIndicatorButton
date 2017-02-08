@@ -11,34 +11,37 @@ import UIKit
 extension UIButton {
     
     ///显示加载指示器
-    func showActivityIndicatorStartAnimating(style: UIActivityIndicatorViewStyle?) {
-        dispatch_async(dispatch_queue_create("com.dispatch.serial", DISPATCH_QUEUE_SERIAL)) {
-            let activityIndicator = UIActivityIndicatorView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 20.0, height: 20.0)))
+    func showActivityIndicatorStartAnimating(_ style: UIActivityIndicatorViewStyle?) {
+        DispatchQueue(label: "com.dispatch.serial").async {
+            let activityIndicator = UIActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20.0, height: 20.0)))
             if style != nil {
                 activityIndicator.activityIndicatorViewStyle = style!
             }
-            dispatch_async(dispatch_get_main_queue()) {
-                self.titleLabel?.transform = CGAffineTransformMakeScale(100000, 100000)
-                self.imageView?.transform = CGAffineTransformMakeScale(100000, 100000)
+            DispatchQueue.main.sync {
+                self.titleLabel?.transform = CGAffineTransform(scaleX: 100000, y: 100000)
+                self.imageView?.transform = CGAffineTransform(scaleX: 100000, y: 100000)
                 self.addSubview(activityIndicator)
+                activityIndicator.center = CGPoint(x: self.frame.width / 2.0, y: self.frame.height / 2.0)
+                activityIndicator.startAnimating()
+                self.isEnabled = false
             }
-            activityIndicator.center = CGPoint(x: self.frame.width / 2.0, y: self.frame.height / 2.0)
-            self.enabled = false
-            activityIndicator.startAnimating()
         }
     }
     
     ///关闭加载指示器
     func showActivityIndicatorStopAnimating() {
-        for subView in subviews {
-            if subView.isKindOfClass(UIActivityIndicatorView.classForCoder()) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    subView.removeFromSuperview()
-                    self.titleLabel?.transform = CGAffineTransformIdentity
-                    self.imageView?.transform = CGAffineTransformIdentity
+        DispatchQueue(label: "com.dispatch.serial").async {
+            for subView in self.subviews {
+                if subView.isKind(of: UIActivityIndicatorView.classForCoder()) {
+                    DispatchQueue.main.sync {
+                        subView.removeFromSuperview()
+                        self.titleLabel?.transform = CGAffineTransform.identity
+                        self.imageView?.transform = CGAffineTransform.identity
+                        self.isEnabled = true
+                    }
                 }
             }
         }
-        self.enabled = true
     }
 }
+
